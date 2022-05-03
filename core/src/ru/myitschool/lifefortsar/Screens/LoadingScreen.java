@@ -49,10 +49,10 @@ public class LoadingScreen implements Screen {
         if(Gdx.input.isTouched()){
             touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             camera.unproject(touch);
-            gme.setScreen(gme.gameScreen);
+        //    gme.setScreen(gme.gameScreen);
         }
 
-        if (TimeUtils.millis()>entryTimeForTamer+transitionTamer) gme.setScreen(gme.gameScreen);
+     //   if (TimeUtils.millis()>entryTimeForTamer+transitionTamer) gme.setScreen(gme.gameScreen);
         camera.update();
         batch.setProjectionMatrix(camera.combined);
 

@@ -1,25 +1,20 @@
 package ru.myitschool.lifefortsar.Screens;
 
-import static ru.myitschool.lifefortsar.Screens.GameSreen.voinsizeX;
-import static ru.myitschool.lifefortsar.Screens.GameSreen.voinsizeY;
-import static ru.myitschool.lifefortsar.Screens.MyGame.SCREEN_HEIGHT;
-import static ru.myitschool.lifefortsar.Screens.MyGame.SCREEN_WIDTH;
-
-import com.badlogic.gdx.math.MathUtils;
+import static ru.myitschool.lifefortsar.Screens.GameSreen.voinRadius;
 
 import java.util.ArrayList;
 
 public class Voin  {
     boolean isFreand;
-    int sizeX=voinsizeX,sizeY=voinsizeY;
+    int sizeX= voinRadius*2,sizeY= voinRadius*2;
     int typeVoin;
     int health, armor;
     int damage;
     int radiusdamage;
     //"id"цели в "вражеском" списке воинов
     int iAim;
-    double radius;
-    float positX, positY;
+    float radius;
+    float x, y;
     float speed;
 
     Voin(float posX,float posY,int typVoi,boolean isDrug){
@@ -65,21 +60,24 @@ public class Voin  {
         isFreand = isDrug;
         radius=20;
         typeVoin = typVoi;
-        positX=posX;
-        positY = posY;
+        x =posX;
+        y = posY;
 
     }
     void move(){
-        positY+=speed;
+        y +=speed;
+    }
+    boolean isHit(float tx, float ty){
+        return (Math.pow(tx - x, 2) + Math.pow(ty - y, 2) <= Math.pow(radius*2, 2));
     }
 
     // фокусировка на враге
     void focus(ArrayList<Voin> anim){
         // расстояние наименьшего радиуса до врага
-        double rG = Math.sqrt(Math.pow(positX-anim.get(0).positX,2)+Math.pow(positY-anim.get(0).positY,2));
+        double rG = Math.sqrt(Math.pow(x -anim.get(0).x,2)+Math.pow(y -anim.get(0).y,2));
         for (int i=0; i<anim.size();i++){
-            if (rG>= Math.sqrt(Math.pow(positX-anim.get(i).positX,2)+Math.pow(positY-anim.get(i).positY,2)) && anim.get(i).health>0) {
-                rG = Math.sqrt(Math.pow(positX - anim.get(i).positX, 2) + Math.pow(positY - anim.get(i).positY, 2));
+            if (rG>= Math.sqrt(Math.pow(x -anim.get(i).x,2)+Math.pow(y -anim.get(i).y,2)) && anim.get(i).health>0) {
+                rG = Math.sqrt(Math.pow(x - anim.get(i).x, 2) + Math.pow(y - anim.get(i).y, 2));
                 iAim = i;
             }
         }
