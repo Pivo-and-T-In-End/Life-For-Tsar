@@ -11,8 +11,7 @@ public class Voin  {
     int health, armor;
     int damage;
     int radiusdamage;
-    //"id"цели в "вражеском" списке воинов
-    int iAim;
+    int iAim;       //"id"цели в "вражеском" списке воинов
     float radius;
     float x, y;
     float speed;
@@ -64,9 +63,11 @@ public class Voin  {
         y = posY;
 
     }
+
     void move(){
         y +=speed;
     }
+
     boolean isHit(float tx, float ty){
         return (Math.pow(tx - x, 2) + Math.pow(ty - y, 2) <= Math.pow(radius*2, 2));
     }

@@ -26,11 +26,11 @@ public class GameSreen implements Screen {
     Vector3 touch;
     public ArrayList<Voin> voins = new ArrayList<>();
 
-    Texture img_Feeld, img_Voin,img_Battons;
+    Texture img_Feeld, img_Voin, img_Battons;
     TextureRegion[] imgBtn = new TextureRegion[12];
 
     // 0- растановка войск врага,  1 - растановка наших войск, 2 - камера движется;
-    byte battlePhase=0;
+    byte battlePhase = 0;
     // тип воина, такой же как в классе voin
     byte typeVoin;
 
@@ -47,7 +47,8 @@ public class GameSreen implements Screen {
         img_Feeld = new Texture(Gdx.files.internal("scrennsResource/screensGame/gamefeeld.png"));
         img_Voin = new Texture(Gdx.files.internal("scrennsResource/screensGame/knight.png"));
         img_Battons = new Texture(Gdx.files.internal("scrennsResource/screensGame/buttons/atlasBatton.png"));
-        for (int i=0; i<imgBtn.length; i++) imgBtn[i] = new TextureRegion(img_Battons, i*180, 0, 180, 180);
+        for (int i = 0; i < imgBtn.length; i++)
+            imgBtn[i] = new TextureRegion(img_Battons, i * 180, 0, 180, 180);
 
     }
 
@@ -64,22 +65,24 @@ public class GameSreen implements Screen {
         if (Gdx.input.justTouched()) {
             touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             camera.unproject(touch);
+            typeVoin = changeType(touch, typeVoin);//Смена типа раставляемых воинов
+
             //Добавление врагов
-            if (battlePhase == 0 && inZone(touch)){
-                boolean isPlaceFree=true;
-                for (int i=voins.size()-1;i>=0;i--) {
+            if (battlePhase == 0 && inZone(touch,battlePhase)) {
+                boolean isPlaceFree = true;
+
+                for (int i = voins.size() - 1; i >= 0; i--) {
                     //проверка на спорикосновение ставящегося воина с уже существующим
                     if (voins.get(i).isHit(touch.x, touch.y)) {
                         voins.remove(i);
                         isPlaceFree = false;
-                        System.out.println("kill");
                     }
                 }
                 if (isPlaceFree) {
                     voins.add(new Voin(touch.x, touch.y, typeVoin, VRAG));
-                    System.out.println("born");
                 }
             }
+
             //changeType()
 
             //добавление друзей
@@ -97,20 +100,18 @@ public class GameSreen implements Screen {
         batch.draw(img_Feeld, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT * 2);
         for (Voin v : voins) {
             if (battlePhase == 2) v.move();
-            batch.draw(img_Voin, v.x-v.radius, v.y-v.radius, v.sizeX, v.sizeY);
+            batch.draw(img_Voin, v.x - v.radius, v.y - v.radius, v.sizeX, v.sizeY);
         }
-        batch.draw(imgBtn[0], 0, SCREEN_HEIGHT, 180, 180);
-        batch.end();
-    }
+        for (int i = 0; i < 5; i++) {
+            if (i == typeVoin) {
+                if (i == 0)
+                    batch.draw(imgBtn[1], i*SCREEN_WIDTH/6, SCREEN_HEIGHT, SCREEN_WIDTH / 6, SCREEN_WIDTH / 6);
+                if (i != 0)
+                    batch.draw(imgBtn[i * 2 + 1], i*SCREEN_WIDTH/6, SCREEN_HEIGHT, SCREEN_WIDTH / 6, SCREEN_WIDTH / 6);
+            } else batch.draw(imgBtn[i * 2], i*SCREEN_WIDTH/6, SCREEN_HEIGHT, SCREEN_WIDTH / 6, SCREEN_WIDTH / 6);
 
-    boolean inZone(Vector3 t){
-        return (t.x > voinRadius && t.x < SCREEN_WIDTH - voinRadius && t.y > SCREEN_HEIGHT+voinRadius+SCREEN_WIDTH/6 && t.y < SCREEN_HEIGHT*2 - voinRadius);
-    }
-    int changeType(Vector3 t,int nowType){
-        if(t.y>SCREEN_HEIGHT && t.y<SCREEN_HEIGHT+SCREEN_WIDTH/6){
-            return (int) (t.x/SCREEN_WIDTH/6);
-        }
-        else return nowType;
+        } // отрисовка кнопок
+        batch.end();
     }
 
     @Override
@@ -141,4 +142,16 @@ public class GameSreen implements Screen {
         batch.dispose();
 
     }
+
+    boolean inZone(Vector3 t, byte batPhas) {
+        return (t.x > voinRadius && t.x < SCREEN_WIDTH - voinRadius && t.y > SCREEN_HEIGHT + voinRadius + SCREEN_WIDTH / 6 && t.y < SCREEN_HEIGHT * 2 - voinRadius);
+    }
+
+    byte changeType(Vector3 t, int nowType) {
+        if (t.y > SCREEN_HEIGHT && t.y < SCREEN_HEIGHT + SCREEN_WIDTH / 6 && t.x < SCREEN_WIDTH / 6 * 5) {
+            return (byte) (t.x / 180);
+        } else return (byte) nowType;
+    }
+
+
 }
