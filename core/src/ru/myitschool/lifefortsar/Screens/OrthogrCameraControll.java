@@ -1,49 +1,66 @@
 package ru.myitschool.lifefortsar.Screens;
 
 import static ru.myitschool.lifefortsar.Screens.MyGame.SCREEN_HEIGHT;
+
 import static ru.myitschool.lifefortsar.Screens.MyGame.SCREEN_WIDTH;
-
-import com.badlogic.gdx.ApplicationListener;
-import com.badlogic.gdx.InputProcessor;
+import static ru.myitschool.lifefortsar.Screens.GameSreen.voinRadius;
 
 
-public class OrthogrCameraControll implements ApplicationListener {
+import com.badlogic.gdx.math.Vector3;
 
 
-    float camViewHeight, camViewWidth;
-    public float camPositionX, camPositionY;
-    public float posX,posY,poslastX,poslastY;
-    @Override
-    public void create() {
+public class OrthogrCameraControll {
+    public float camPositionX, camPositionY=2880;
+    public float posX, posY, poslastX, poslastY;
+
+    public boolean inZone(Vector3 t, byte batlePhas) {
+        boolean whatReturn = false;
+        if (batlePhas == 0 && t.x > voinRadius && t.x < SCREEN_WIDTH - voinRadius &&
+                t.y > SCREEN_HEIGHT + voinRadius + SCREEN_WIDTH / 6 && t.y < SCREEN_HEIGHT * 2 - voinRadius)
+            whatReturn = true;
+
+        if (batlePhas == 1 && t.x > voinRadius && t.x < SCREEN_WIDTH - voinRadius &&
+                t.y > voinRadius + SCREEN_WIDTH / 6 && t.y < SCREEN_HEIGHT - voinRadius)
+            whatReturn = true;
+
+        return whatReturn;
+    }//проверка на нахождение воина в зоне выставки воинов
+
+    public byte changeTypeV(Vector3 t, byte nowType, byte batlPhasa) {
+        byte whatReturn = 0;
+        if (batlPhasa == 0) {
+            if (t.y > SCREEN_HEIGHT && t.y < SCREEN_HEIGHT + SCREEN_WIDTH / 6 && t.x < SCREEN_WIDTH / 6 * 5)
+                whatReturn = (byte) (t.x / 180);
+            else whatReturn = nowType;
+        }
+        if (batlPhasa == 1) {
+            if (t.y > 0 && t.y < SCREEN_WIDTH / 6 && t.x < SCREEN_WIDTH / 6 * 5)
+                whatReturn = (byte) (t.x / 180);
+            else whatReturn = nowType;
+        }
+        return whatReturn;
+
+    }//меняет тип выставляемых воинов
+
+    public  byte changeBatPhas(Vector3 t, byte batPhase){
+        if (batPhase==0)
+            if (t.y>SCREEN_HEIGHT && t.y<SCREEN_HEIGHT + SCREEN_WIDTH/6 && t.x > SCREEN_WIDTH / 6 * 5 && t.x<SCREEN_WIDTH) batPhase=4;
+
+        if (batPhase==1)
+            if (t.y>0 && t.y< SCREEN_WIDTH/6 && t.x > SCREEN_WIDTH / 6 * 5 && t.x<SCREEN_WIDTH) batPhase=3;
+
+            return batPhase;
     }
 
-    @Override
-    public void resize(int width, int height) {
+    public byte  moveCamera(byte batPhas){
 
+        return 0;
     }
 
-    @Override
-    public void render() {
 
-    }
 
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void dispose() {
-
-    }
-
-    public void move(float tochX, float tochY,float nowPosCamY,byte battlePhase){
-        if (battlePhase==2) {
+     /*public void move(float tochY,float nowPosCamY,byte battlePhase){
+        if (battlePhase==4) {
             poslastY = posY;
             posY = tochY;
             camPositionY = nowPosCamY;
@@ -58,5 +75,5 @@ public class OrthogrCameraControll implements ApplicationListener {
 
         if (battlePhase == 0) camPositionY = 2880;
         if (battlePhase == 1) camPositionY = 960;
-    }
+    }*/
 }
