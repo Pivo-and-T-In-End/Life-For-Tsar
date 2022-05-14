@@ -64,9 +64,9 @@ public class Voin  {
 
     }
 
-    void move(){
+    /*void move(){
         y +=speed;
-    }
+    }*/
 
     boolean isHit(float tx, float ty){
         return (Math.pow(tx - x, 2) + Math.pow(ty - y, 2) <= Math.pow(radius*2, 2));
