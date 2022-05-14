@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.Vector3;
 
 
 public class OrthogrCameraControll {
-    public float camPositionX, camPositionY=2880;
+    public float camPositionX, camPositionY = 2880;
     public float posX, posY, poslastX, poslastY;
 
     public boolean inZone(Vector3 t, byte batlePhas) {
@@ -42,38 +42,34 @@ public class OrthogrCameraControll {
 
     }//меняет тип выставляемых воинов
 
-    public  byte changeBatPhas(Vector3 t, byte batPhase){
-        if (batPhase==0)
-            if (t.y>SCREEN_HEIGHT && t.y<SCREEN_HEIGHT + SCREEN_WIDTH/6 && t.x > SCREEN_WIDTH / 6 * 5 && t.x<SCREEN_WIDTH) batPhase=4;
+    public byte changeBatPhas(Vector3 t, byte batPhase) {
+        if (batPhase == 0)
+            if (t.y > SCREEN_HEIGHT && t.y < SCREEN_HEIGHT + SCREEN_WIDTH / 6 && t.x > SCREEN_WIDTH / 6 * 5 && t.x < SCREEN_WIDTH)
+                batPhase = 3;
 
-        if (batPhase==1)
-            if (t.y>0 && t.y< SCREEN_WIDTH/6 && t.x > SCREEN_WIDTH / 6 * 5 && t.x<SCREEN_WIDTH) batPhase=3;
+        if (batPhase == 1)
+            if (t.y > 0 && t.y < SCREEN_WIDTH / 6 && t.x > SCREEN_WIDTH / 6 * 5 && t.x < SCREEN_WIDTH)
+                batPhase = 2;
 
-            return batPhase;
-    }
+        return batPhase;
+    }// меняет фазу боя
 
-    public byte  moveCamera(byte batPhas){
-
-        return 0;
-    }
-
-
-
-     /*public void move(float tochY,float nowPosCamY,byte battlePhase){
-        if (battlePhase==4) {
-            poslastY = posY;
-            posY = tochY;
-            camPositionY = nowPosCamY;
-            if (posY > poslastY + 5) camPositionY += 20;
-            if (posY < poslastY - 5) camPositionY -= 20;
-
-            //(posY - poslastY)/1;
-            if (camPositionY < 960) camPositionY = 960;
-            if (camPositionY > 2880) camPositionY = 2880;
-            poslastY = camPositionY;
+    public byte moveCamera(byte batPhas) {
+        if (batPhas == 3) {
+            if (camPositionY > SCREEN_HEIGHT / 2) camPositionY-=5;
+            else {
+                camPositionY = SCREEN_HEIGHT / 2;
+                batPhas = 1;
+            }
         }
+        if (batPhas == 2) {
+            if (camPositionY < SCREEN_HEIGHT + SCREEN_HEIGHT / 2) camPositionY+=5;
+            else {
+                camPositionY = SCREEN_HEIGHT + SCREEN_HEIGHT / 2;
+                batPhas = 0;
+            }
+        }
+        return batPhas;
+    }//2- к врагу 3- к друзьям
 
-        if (battlePhase == 0) camPositionY = 2880;
-        if (battlePhase == 1) camPositionY = 960;
-    }*/
 }

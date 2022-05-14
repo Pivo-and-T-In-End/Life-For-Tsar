@@ -59,7 +59,7 @@ public class Voin  {
         isFreand = isDrug;
         radius=20;
         typeVoin = typVoi;
-        x =posX;
+        x = posX;
         y = posY;
 
     }
