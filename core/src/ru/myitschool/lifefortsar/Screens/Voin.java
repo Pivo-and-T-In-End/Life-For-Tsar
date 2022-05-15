@@ -4,7 +4,7 @@ import static ru.myitschool.lifefortsar.Screens.GameSreen.voinRadius;
 
 import java.util.ArrayList;
 
-public class Voin  {
+public class Voin extends Object{
     boolean isFreand;
     int sizeX= voinRadius*2,sizeY= voinRadius*2;
     int typeVoin;
@@ -16,7 +16,7 @@ public class Voin  {
     float x, y;
     float speed;
 
-    Voin(float posX,float posY,int typVoi,boolean isDrug){
+    Voin(float posX,float posY,int typVoi,boolean isFrean){
         // 0 = меч 1 = щит 2 = щит и меч 3 = копьё 4 = копьё и щит
         switch (typVoi){
             case 0:
@@ -56,7 +56,7 @@ public class Voin  {
                 break;
         }
 
-        isFreand = isDrug;
+        isFreand = isFrean;
         radius=20;
         typeVoin = typVoi;
         x = posX;
@@ -64,21 +64,21 @@ public class Voin  {
 
     }
 
-    /*void move(){
-        y +=speed;
-    }*/
-
-    boolean isHit(float tx, float ty){
+    public boolean isHit(float tx, float ty){
         return (Math.pow(tx - x, 2) + Math.pow(ty - y, 2) <= Math.pow(radius*2, 2));
     }
 
+    //переставление воинов в списке
+
+
     // фокусировка на враге
-    void focus(ArrayList<Voin> anim){
+
+    public void focus(ArrayList<Voin> voins){
         // расстояние наименьшего радиуса до врага//
-        double rG = Math.sqrt(Math.pow(x -anim.get(0).x,2)+Math.pow(y -anim.get(0).y,2));
-        for (int i=0; i<anim.size();i++){
-            if (rG>= Math.sqrt(Math.pow(x -anim.get(i).x,2)+Math.pow(y -anim.get(i).y,2)) && anim.get(i).health>0) {
-                rG = Math.sqrt(Math.pow(x - anim.get(i).x, 2) + Math.pow(y - anim.get(i).y, 2));
+        double rG = Math.sqrt(Math.pow(x -voins.get(0).x,2)+Math.pow(y -voins.get(0).y,2));
+        for (int i=0; i<voins.size();i++){
+            if (rG>= Math.sqrt(Math.pow(x -voins.get(i).x,2)+Math.pow(y -voins.get(i).y,2)) && voins.get(i).health>0) {
+                rG = Math.sqrt(Math.pow(x - voins.get(i).x, 2) + Math.pow(y - voins.get(i).y, 2));
                 iAim = i;
             }
         }

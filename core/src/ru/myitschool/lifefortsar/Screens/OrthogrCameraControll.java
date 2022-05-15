@@ -7,11 +7,17 @@ import static ru.myitschool.lifefortsar.Screens.GameSreen.voinRadius;
 
 
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.TimeUtils;
 
 
 public class OrthogrCameraControll {
     public float camPositionX, camPositionY = 2880;
     public float posX, posY, poslastX, poslastY;
+    private long startIsTouchd, firstIsTouchd;
+
+    OrthogrCameraControll(){
+        startIsTouchd = TimeUtils.millis();
+    }
 
     public boolean inZone(Vector3 t, byte batlePhas) {
         boolean whatReturn = false;
@@ -56,14 +62,14 @@ public class OrthogrCameraControll {
 
     public byte moveCamera(byte batPhas) {
         if (batPhas == 3) {
-            if (camPositionY > SCREEN_HEIGHT / 2) camPositionY-=5;
+            if (camPositionY > SCREEN_HEIGHT / 2) camPositionY -= 5;
             else {
                 camPositionY = SCREEN_HEIGHT / 2;
                 batPhas = 1;
             }
         }
         if (batPhas == 2) {
-            if (camPositionY < SCREEN_HEIGHT + SCREEN_HEIGHT / 2) camPositionY+=5;
+            if (camPositionY < SCREEN_HEIGHT + SCREEN_HEIGHT / 2) camPositionY += 5;
             else {
                 camPositionY = SCREEN_HEIGHT + SCREEN_HEIGHT / 2;
                 batPhas = 0;
@@ -72,4 +78,20 @@ public class OrthogrCameraControll {
         return batPhas;
     }//2- к врагу 3- к друзьям
 
+    public byte startFight(Vector3 touch, byte battlePhase) {
+        byte whatReturn = battlePhase;
+        if (battlePhase == 0 && touch.y > SCREEN_HEIGHT && touch.y < SCREEN_HEIGHT + SCREEN_WIDTH / 6 &&
+                touch.x > SCREEN_WIDTH / 6 * 5 && touch.x < SCREEN_WIDTH) {
+            if (firstIsTouchd < TimeUtils.millis() - 3100) firstIsTouchd = TimeUtils.millis();
+            if (TimeUtils.millis() >= firstIsTouchd + 3000)
+                whatReturn =  4;
+        }
+        else if (battlePhase == 1 && touch.y > 0 && touch.y < SCREEN_WIDTH / 6 &&
+                touch.x > SCREEN_WIDTH / 6 * 5 && touch.x < SCREEN_WIDTH) {
+            if (firstIsTouchd < TimeUtils.millis() - 3100) firstIsTouchd = TimeUtils.millis();
+            if (TimeUtils.millis() >= firstIsTouchd + 3000)
+                whatReturn = 4;
+        }
+        return whatReturn;
+    } // нажатие кнопки для начала боя
 }

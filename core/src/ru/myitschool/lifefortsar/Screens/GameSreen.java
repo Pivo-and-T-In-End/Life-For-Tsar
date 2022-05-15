@@ -8,8 +8,11 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.TimeUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 
 
 public class GameSreen implements Screen {
@@ -22,6 +25,7 @@ public class GameSreen implements Screen {
     ForBatchRender forBatchRender;
     Vector3 touch;
     public ArrayList<Voin> voins = new ArrayList<>();
+
 
     // 0- растановка войск врага,  1 - растановка наших войск, 2 - камера движется к "врагу" 3 - камера движется к "друзьяшкам" 4 - камера в позиции боя ;
     byte battlePhase = 0;
@@ -53,6 +57,7 @@ public class GameSreen implements Screen {
         if (Gdx.input.isTouched()) {
             touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             camera.unproject(touch);
+            battlePhase = ortCamCon.startFight(touch,battlePhase);
         }
 
         if (Gdx.input.justTouched()) {
