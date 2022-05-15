@@ -65,7 +65,7 @@ public class GameSreen implements Screen {
                 boolean isPlaceFree = true;
 
                 for (int i = voins.size() - 1; i >= 0; i--) {
-                    //проверка на спорикосновение ставящегося воина с уже существующим
+                    //проверка на спорикосновение ставящегося воина с уже существующим//
                     if (voins.get(i).isHit(touch.x, touch.y)) {
                         voins.remove(i);
                         isPlaceFree = false;

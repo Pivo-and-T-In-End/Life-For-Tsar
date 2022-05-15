@@ -29,7 +29,7 @@ public class MyGame extends Game {
 		camera = new OrthographicCamera();
 		touch = new Vector3();
 
-		//loadingScreen = new LoadingScreen(this);
+		//loadingScreen = new LoadingScreen(this);//
 		menuScreen = new MenuScreen(this);
 		gameScreen = new GameSreen(this);
 

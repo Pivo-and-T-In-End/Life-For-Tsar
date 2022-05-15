@@ -24,7 +24,7 @@ public class OrthogrCameraControll {
             whatReturn = true;
 
         return whatReturn;
-    }//проверка на нахождение воина в зоне выставки воинов
+    }//проверка на нахождение воина в зоне выставки воинов//
 
     public byte changeTypeV(Vector3 t, byte nowType, byte batlPhasa) {
         byte whatReturn = 0;

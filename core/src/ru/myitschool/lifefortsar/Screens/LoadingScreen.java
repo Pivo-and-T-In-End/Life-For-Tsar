@@ -45,7 +45,7 @@ public class LoadingScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        // обработка касаний
+        // обработка касаний//
         if(Gdx.input.isTouched()){
             touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             camera.unproject(touch);

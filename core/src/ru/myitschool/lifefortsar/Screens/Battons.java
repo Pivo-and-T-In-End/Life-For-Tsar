@@ -17,6 +17,7 @@ public class Battons {
     int b6posX = 900, b6posY=0;
     int b6sizeX = 180, b6sizeY=180;
 
+    //
     Battons(){
         img_b1 = new Texture("scrennsResource/screensGame/button1normal.png");
     }

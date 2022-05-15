@@ -74,7 +74,7 @@ public class Voin  {
 
     // фокусировка на враге
     void focus(ArrayList<Voin> anim){
-        // расстояние наименьшего радиуса до врага
+        // расстояние наименьшего радиуса до врага//
         double rG = Math.sqrt(Math.pow(x -anim.get(0).x,2)+Math.pow(y -anim.get(0).y,2));
         for (int i=0; i<anim.size();i++){
             if (rG>= Math.sqrt(Math.pow(x -anim.get(i).x,2)+Math.pow(y -anim.get(i).y,2)) && anim.get(i).health>0) {

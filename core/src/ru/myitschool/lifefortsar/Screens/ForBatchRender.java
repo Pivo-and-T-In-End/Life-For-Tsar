@@ -59,7 +59,7 @@ public class ForBatchRender {
                 if (battlePhase == 1)
                     batch.draw(imgBtn[i * 2], i * SCREEN_WIDTH / 6, 0, SCREEN_WIDTH / 6, SCREEN_WIDTH / 6);
             }
-        } // отрисовка кнопок
+        } // отрисовка кнопок//
         batch.end();
 
     }

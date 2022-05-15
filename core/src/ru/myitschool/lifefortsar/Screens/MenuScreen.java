@@ -14,7 +14,7 @@ public class MenuScreen implements Screen {
     public MenuScreen(MyGame gme) {
         this.gme = gme;
         batch = new SpriteBatch();
-        //img = new Texture("loadScrnsav.jpg");
+        //img = new Texture("loadScrnsav.jpg");//
     }
 
     @Override
