@@ -12,9 +12,9 @@ public class Voin extends Object {
     private int typeVoin;
     int health, armor;
     private int damage;
-    private int radiusdamage;
+    private float radiusdamage;
     int idAim;       //"id"цели в "вражеском" списке воинов
-    float radius;
+    float radius = voinRadius;
     float x, y;
     private float speed;
 
@@ -26,40 +26,39 @@ public class Voin extends Object {
                 armor = 10;
                 speed = 0.8f;
                 damage = 20;
-                radiusdamage = voinRadius * 2 + 10;
+                radiusdamage = voinRadius * 2 + 20;
                 break;
             case 1:
                 health = 10000;
                 armor = 50;
                 speed = 0.6f;
                 damage = 5;
-                radiusdamage = voinRadius * 2 + 5;
+                radiusdamage = voinRadius * 2 + 10;
                 break;
             case 2:
                 health = 10000;
                 armor = 50;
                 speed = 0.4f;
                 damage = 20;
-                radiusdamage = voinRadius * 2 + 7;
+                radiusdamage = voinRadius * 2 + 14;
                 break;
             case 3:
                 health = 4000;
                 armor = 10;
                 speed = 1;
                 damage = 15;
-                radiusdamage = voinRadius * 2 + 20;
+                radiusdamage = voinRadius * 2 + 40;
                 break;
             case 4:
                 health = 8000;
                 armor = 35;
                 speed = 0.6f;
                 damage = 15;
-                radiusdamage = voinRadius * 2 + 15;
+                radiusdamage = voinRadius * 2 + 30;
                 break;
         }
 
         isFreand = isFrean;
-        radius = 20;
         typeVoin = typVoi;
         x = posX;
         y = posY;
@@ -125,13 +124,13 @@ public class Voin extends Object {
 
         for (int i = 0; i < voins.size(); i++) {
             if (isFreand) {
-                if (voins.get(i).y > y && Math.pow(y - voins.get(i).y, 2) + Math.pow(x - voins.get(i).x, 2) < Math.pow(radius * 2 + Math.abs(possX) + Math.abs(possY),2)) {
+                if (voins.get(i).y > y && Math.pow(y - voins.get(i).y, 2) + Math.pow(x - voins.get(i).x, 2) < Math.pow(radius*2,2)) {
                     canmove = false;
                     break;
                 }
             }
             if (!isFreand) {
-                if (voins.get(i).y < y && Math.pow(y - voins.get(i).y, 2) + Math.pow(x - voins.get(i).x, 2) < Math.pow(radius * 2,2)) {
+                if (voins.get(i).y < y && Math.pow(y - voins.get(i).y, 2) + Math.pow(x - voins.get(i).x, 2) < Math.pow(radius*2,2)) {
                     canmove = false;
                     break;
                 }
@@ -143,12 +142,13 @@ public class Voin extends Object {
         }
 
 
-    }//хрень - сделать нехренью
+    }
 
     // бой
     public void fightWithAim(ArrayList<Voin> voins){
-        if (Math.pow(x - voins.get(idAim).x, 2) + Math.pow(y - voins.get(idAim).y, 2) < Math.pow(radiusdamage,2)){
+        if (Math.pow(x - voins.get(idAim).x, 2) + Math.pow(y - voins.get(idAim).y, 2) < Math.pow(radiusdamage*2,2)){
             voins.get(idAim).health -= damage;
+            System.out.println("yes");
         }
     }
 

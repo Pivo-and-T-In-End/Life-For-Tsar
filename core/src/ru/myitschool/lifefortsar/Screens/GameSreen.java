@@ -86,15 +86,25 @@ public class GameSreen implements Screen {
 
         // работа с воинами
         if (battlePhase == 4) {
-            for (int i = 0; i < voins.size(); i++) {
-                if (voins.get(i).health <= 0) voins.remove(i);
-            } // удаление павших
+            // перезапуск игры
+            int vrag = 0,drug = 0;
+            for (int i = 0; i < voins.size();i++){
+                if (voins.get(i).isFreand) drug ++;
+                else vrag ++;
+            }
+            if (vrag == 0 || drug == 0) restart();
 
             for (int i = 0; i < voins.size(); i++) {
+                if (voins.get(i).health <= 0) {
+                    voins.remove(i);
+                    break;
+                }
                 voins.get(i).focus(voins);//  добавление цели воину
                 voins.get(i).moveToAim(voins); // Движение к цели
                 voins.get(i).fightWithAim(voins);
-                System.out.println(voins.get(i).health);
+                if (voins.get(i).health <= 0) voins.remove(i);
+                //System.out.println(voins.get(i).health + "   " + voins.get(i).idAim);
+                System.out.println(voins.size());
             }
 
 
@@ -143,4 +153,9 @@ public class GameSreen implements Screen {
 
     }
 
+    void restart(){
+        voins.clear();
+        battlePhase = 0;
+        ortCamCon.camPositionY = 2880;
+    }
 }
