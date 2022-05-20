@@ -2,87 +2,164 @@ package ru.myitschool.lifefortsar.Screens;
 
 import static ru.myitschool.lifefortsar.Screens.GameSreen.voinRadius;
 
+import com.badlogic.gdx.math.MathUtils;
+
 import java.util.ArrayList;
 
-public class Voin extends Object{
+public class Voin extends Object {
     boolean isFreand;
-    int sizeX= voinRadius*2,sizeY= voinRadius*2;
-    int typeVoin;
+    int sizeX = voinRadius * 2, sizeY = voinRadius * 2;
+    private int typeVoin;
     int health, armor;
-    int damage;
-    int radiusdamage;
-    int iAim;       //"id"цели в "вражеском" списке воинов
+    private int damage;
+    private int radiusdamage;
+    int idAim;       //"id"цели в "вражеском" списке воинов
     float radius;
     float x, y;
-    float speed;
+    private float speed;
 
-    Voin(float posX,float posY,int typVoi,boolean isFrean){
+    Voin(float posX, float posY, int typVoi, boolean isFrean) {
         // 0 = меч 1 = щит 2 = щит и меч 3 = копьё 4 = копьё и щит
-        switch (typVoi){
+        switch (typVoi) {
             case 0:
-                health = 50;
+                health = 5000;
                 armor = 10;
                 speed = 0.8f;
                 damage = 20;
-                radiusdamage=10;
+                radiusdamage = voinRadius * 2 + 10;
                 break;
             case 1:
-                health=100;
-                armor=50;
-                speed=0.6f;
-                damage=5;
-                radiusdamage=5;
+                health = 10000;
+                armor = 50;
+                speed = 0.6f;
+                damage = 5;
+                radiusdamage = voinRadius * 2 + 5;
                 break;
             case 2:
-                health=100;
-                armor=50;
-                speed=0.4f;
-                damage=20;
-                radiusdamage=7;
+                health = 10000;
+                armor = 50;
+                speed = 0.4f;
+                damage = 20;
+                radiusdamage = voinRadius * 2 + 7;
                 break;
             case 3:
-                health=40;
-                armor=10;
-                speed=1;
-                damage=15;
-                radiusdamage=20;
+                health = 4000;
+                armor = 10;
+                speed = 1;
+                damage = 15;
+                radiusdamage = voinRadius * 2 + 20;
                 break;
             case 4:
-                health=80;
-                armor=35;
-                speed=0.6f;
-                damage=15;
-                radiusdamage=15;
+                health = 8000;
+                armor = 35;
+                speed = 0.6f;
+                damage = 15;
+                radiusdamage = voinRadius * 2 + 15;
                 break;
         }
 
         isFreand = isFrean;
-        radius=20;
+        radius = 20;
         typeVoin = typVoi;
         x = posX;
         y = posY;
 
     }
 
-    public boolean isHit(float tx, float ty){
-        return (Math.pow(tx - x, 2) + Math.pow(ty - y, 2) <= Math.pow(radius*2, 2));
+    public boolean isHit(float tx, float ty) {
+        return (Math.pow(tx - x, 2) + Math.pow(ty - y, 2) <= Math.pow(radius * 2, 2));
     }
 
     //переставление воинов в списке
 
 
     // фокусировка на враге
-
-    public void focus(ArrayList<Voin> voins){
+    public void focus(ArrayList<Voin> voins) {
+        float othX = 99999, othY = 99999;
+        int idTarget = 0;
         // расстояние наименьшего радиуса до врага//
-        double rG = Math.sqrt(Math.pow(x -voins.get(0).x,2)+Math.pow(y -voins.get(0).y,2));
-        for (int i=0; i<voins.size();i++){
-            if (rG>= Math.sqrt(Math.pow(x -voins.get(i).x,2)+Math.pow(y -voins.get(i).y,2)) && voins.get(i).health>0) {
-                rG = Math.sqrt(Math.pow(x - voins.get(i).x, 2) + Math.pow(y - voins.get(i).y, 2));
-                iAim = i;
+        if (isFreand) {
+            for (int i = 0; i < voins.size(); i++) {
+                if (!voins.get(i).isFreand && (Math.pow(x - voins.get(i).x, 2) + Math.pow(y - voins.get(i).y, 2))
+                        < (Math.pow(x - othX, 2) + Math.pow(y - othY, 2))) {
+                    othX = voins.get(i).x;
+                    othY = voins.get(i).y;
+                    idTarget = i;
+                }
             }
         }
 
+        if (!isFreand) {
+            for (int i = 0; i < voins.size(); i++) {
+                if (voins.get(i).isFreand && (Math.pow(x - voins.get(i).x, 2) + Math.pow(y - voins.get(i).y, 2))
+                        < (Math.pow(x - othX, 2) + Math.pow(y - othY, 2))) {
+                    othX = voins.get(i).x;
+                    othY = voins.get(i).y;
+                    idTarget = i;
+                }
+            }
+        }
+
+        idAim = idTarget;
     }
+
+    // Движение к цели
+    public void moveToAim(ArrayList<Voin> voins) {
+        float possX = 0, possY = 0;
+        float genNumber; // Общий знаменатель для выяснения точек, к которым надо двигаться
+        boolean canmove = true;
+        genNumber = (Math.abs(y - voins.get(idAim).y) + Math.abs(x - voins.get(idAim).x));
+        if (x > voins.get(idAim).x + radiusdamage)
+            possX = (speed / genNumber * (voins.get(idAim).x - x));
+        if (x < voins.get(idAim).x - radiusdamage)
+            possX = (speed / genNumber * (voins.get(idAim).x - x));
+        if (x < voins.get(idAim).x + radiusdamage / 10 && x > voins.get(idAim).x - radiusdamage / 10)
+            possX = 0;
+
+        if (y > voins.get(idAim).y + radiusdamage)
+            possY = (speed / genNumber * (voins.get(idAim).y - y));
+        if (y < voins.get(idAim).y - radiusdamage)
+            possY = (speed / genNumber * (voins.get(idAim).y - y));
+        if (y < voins.get(idAim).y + radiusdamage && y > voins.get(idAim).y - radiusdamage)
+            possY = 0;
+
+        for (int i = 0; i < voins.size(); i++) {
+            if (isFreand) {
+                if (possX > 0 && voins.get(i).x < x + radius * 2 + possX && voins.get(i).y < y + radius * 2 + possY) {
+                    canmove = false;
+                    break;
+                }
+                if (possX < 0 && voins.get(i).x > x - radius * 2 - possX && voins.get(i).y < y + radius * 2 + possY) {
+                    canmove = false;
+                    break;
+                }
+            }
+            if (!isFreand) {
+                if (possX > 0 && voins.get(i).x < x + radius * 2 + possX && voins.get(i).y > y - radius * 2 - possY) {
+                    canmove = false;
+                    break;
+                }
+                if (possX < 0 && voins.get(i).x > x - radius * 2 - possX && voins.get(i).y < y - radius * 2 - possY) {
+                    canmove = false;
+                    break;
+                }
+
+            }
+        }
+        if (canmove) {
+            if (possX != 0) x += possX;
+            if (possY != 0) y += possY;
+        }
+
+
+    }//хрень - сделать нехренью
+
+    // бой
+    public void fightWithAim(ArrayList<Voin> voins){
+        if (Math.pow(x - voins.get(idAim).x, 2) + Math.pow(y - voins.get(idAim).y, 2) < Math.pow(radiusdamage,2)){
+            voins.get(idAim).health -= damage;
+        }
+    }
+
 
 }

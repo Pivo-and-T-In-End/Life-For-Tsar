@@ -62,19 +62,23 @@ public class OrthogrCameraControll {
 
     public byte moveCamera(byte batPhas) {
         if (batPhas == 3) {
-            if (camPositionY > SCREEN_HEIGHT / 2) camPositionY -= 5;
+            if (camPositionY > SCREEN_HEIGHT / 2) camPositionY -= 10;
             else {
                 camPositionY = SCREEN_HEIGHT / 2;
                 batPhas = 1;
             }
         }
         if (batPhas == 2) {
-            if (camPositionY < SCREEN_HEIGHT + SCREEN_HEIGHT / 2) camPositionY += 5;
+            if (camPositionY < SCREEN_HEIGHT + SCREEN_HEIGHT / 2) camPositionY += 10;
             else {
                 camPositionY = SCREEN_HEIGHT + SCREEN_HEIGHT / 2;
                 batPhas = 0;
             }
         }
+        if (batPhas == 4) {
+            camPositionY = SCREEN_HEIGHT;
+        }
+
         return batPhas;
     }//2- к врагу 3- к друзьям
 

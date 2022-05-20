@@ -7,6 +7,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.TimeUtils;
 
@@ -82,6 +83,24 @@ public class GameSreen implements Screen {
                 }
             }
         }
+
+        // работа с воинами
+        if (battlePhase == 4) {
+            for (int i = 0; i < voins.size(); i++) {
+                if (voins.get(i).health <= 0) voins.remove(i);
+            } // удаление павших
+
+            for (int i = 0; i < voins.size(); i++) {
+                voins.get(i).focus(voins);//  добавление цели воину
+                voins.get(i).moveToAim(voins); // Движение к цели
+                voins.get(i).fightWithAim(voins);
+                System.out.println(voins.get(i).health);
+            }
+
+
+        }
+
+
 
         battlePhase = ortCamCon.moveCamera(battlePhase);
         camera.position.y=ortCamCon.camPositionY;
