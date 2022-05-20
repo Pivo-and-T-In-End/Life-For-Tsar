@@ -125,25 +125,16 @@ public class Voin extends Object {
 
         for (int i = 0; i < voins.size(); i++) {
             if (isFreand) {
-                if (possX > 0 && voins.get(i).x < x + radius * 2 + possX && voins.get(i).y < y + radius * 2 + possY) {
-                    canmove = false;
-                    break;
-                }
-                if (possX < 0 && voins.get(i).x > x - radius * 2 - possX && voins.get(i).y < y + radius * 2 + possY) {
+                if (voins.get(i).y > y && Math.pow(y - voins.get(i).y, 2) + Math.pow(x - voins.get(i).x, 2) < Math.pow(radius * 2 + Math.abs(possX) + Math.abs(possY),2)) {
                     canmove = false;
                     break;
                 }
             }
             if (!isFreand) {
-                if (possX > 0 && voins.get(i).x < x + radius * 2 + possX && voins.get(i).y > y - radius * 2 - possY) {
+                if (voins.get(i).y < y && Math.pow(y - voins.get(i).y, 2) + Math.pow(x - voins.get(i).x, 2) < Math.pow(radius * 2,2)) {
                     canmove = false;
                     break;
                 }
-                if (possX < 0 && voins.get(i).x > x - radius * 2 - possX && voins.get(i).y < y - radius * 2 - possY) {
-                    canmove = false;
-                    break;
-                }
-
             }
         }
         if (canmove) {
