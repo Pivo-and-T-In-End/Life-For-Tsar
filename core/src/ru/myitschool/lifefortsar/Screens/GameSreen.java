@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 public class GameSreen implements Screen {
     final MyGame gme;
     public static final boolean DRUG = true, VRAG = false;
-    public final static int voinRadius = 25;
+    public final static int voinRadius = 50;
     OrthographicCamera camera;
     OrthogrCameraControll ortCamCon;
     SpriteBatch batch;

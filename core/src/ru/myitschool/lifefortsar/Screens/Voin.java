@@ -66,7 +66,7 @@ public class Voin extends Object {
     }
 
     public boolean isHit(float tx, float ty) {
-        return (Math.pow(tx - x, 2) + Math.pow(ty - y, 2) <= Math.pow(radius * 2, 2));
+        return (Math.pow(tx - x, 2) + Math.pow(ty - y, 2) <= Math.pow(radius, 2));
     }
 
     //переставление воинов в списке
@@ -146,7 +146,7 @@ public class Voin extends Object {
 
     // бой
     public void fightWithAim(ArrayList<Voin> voins){
-        if (Math.pow(x - voins.get(idAim).x, 2) + Math.pow(y - voins.get(idAim).y, 2) < Math.pow(radiusdamage*2,2)){
+        if (Math.pow(x - voins.get(idAim).x, 2) + Math.pow(y - voins.get(idAim).y, 2) < Math.pow(radiusdamage* 1.5 ,2)){
             voins.get(idAim).health -= damage;
             System.out.println("yes");
         }
